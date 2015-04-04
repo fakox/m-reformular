@@ -20,8 +20,3 @@ for x in xrange(1,10):
 #for tweet in c
 #	print tweet.text
 
-
-
-#hi=api.followers_ids('Fakoxx')
-#print hi
-
