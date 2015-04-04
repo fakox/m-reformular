@@ -19,9 +19,6 @@ api = tweepy.API(auth)
 
 
 palabras=['hola','gato','nombre','tonto','abril','daniel','sol','javiera','dos','diez']
-slash='\\'
-arroba='@'
-gato='#'
 
 correcto=0;
 seleccion=[]
