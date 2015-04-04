@@ -1,5 +1,9 @@
+# -*- encoding: utf-8 -*-
 import tweepy
 import sys
+import urllib3.contrib.pyopenssl
+
+urllib3.contrib.pyopenssl.inject_into_urllib3()
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
@@ -13,25 +17,33 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-# public_tweets = api.home_timeline()
-#for tweet in public_tweets:
- #   print tweet.text
 
-#for status in tweepy.Cursor(api.user_timeline).items():
-    
-#   process_status(status)
 palabras=['hola','gato','nombre','tonto','abril','daniel','sol','javiera','dos','diez']
-for x in xrange(1,10):
-	for tweet in tweepy.Cursor(api.search,q=palabras[x],count=1,result_type="recent",include_entities=True,lang="en").items(1):
-		print tweet.created_at, unicode(tweet.text)
+slash='\\'
+arroba='@'
+gato='#'
 
-#for tweet in tweepy.Cursor(api.search(q='bachelet',rpp=1,count=1,show_user='True')).items():
- #   print tweet.created_at, tweet.text
-#for tweet in c
-#	print tweet.text
+correcto=0;
+seleccion=[]
+for x in xrange(0,10):
+	for tweet in tweepy.Cursor(api.search,q=palabras[x],count=1,result_type="recent",include_entities=True,lang="es").items(1):
+		frase=str((tweet.text)).split()
+		for palabra in frase:
+			if len(palabra)>=4:
+				for letra in palabra:
+					if letra.lower()>='a'and letra.lower()<='z':
+						seleccion=seleccion+[palabra]
+						correcto=1
+					else:
+						correcto=0
+						break
+			else:
+				correcto=0
+			if correcto:
+				print palabra
+				correcto=0
 
-# lucho was here :B
+			
 
-#hi=api.followers_ids('Fakoxx')
-#print hi
+
 
