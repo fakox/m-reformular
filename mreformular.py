@@ -30,7 +30,7 @@ for x in xrange(1,10):
 #for tweet in c
 #	print tweet.text
 
-
+# lucho was here :B
 
 #hi=api.followers_ids('Fakoxx')
 #print hi
