@@ -2,6 +2,8 @@
 import tweepy
 import sys
 import urllib3.contrib.pyopenssl
+import time
+from random import randint
 
 urllib3.contrib.pyopenssl.inject_into_urllib3()
 reload(sys)
@@ -22,14 +24,22 @@ palabras=['hola','gato','nombre','tonto','abril','daniel','sol','javiera','dos',
 
 correcto=0;
 seleccion=[]
-for x in xrange(0,10):
+
+t_inicio=int(time.time())
+t_actual=int(time.time())
+contador=0
+while (t_actual-t_inicio<30):
+	x=randint(0,9)
+	#print x
 	for tweet in tweepy.Cursor(api.search,q=palabras[x],count=1,result_type="recent",include_entities=True,lang="es").items(1):
 		frase=str((tweet.text)).split()
+		#print frase
 		for palabra in frase:
+			#print len (palabra)
 			if len(palabra)>=4:
 				for letra in palabra:
 					if letra.lower()>='a'and letra.lower()<='z':
-						seleccion=seleccion+[palabra]
+						#seleccion=seleccion+[palabra]
 						correcto=1
 					else:
 						correcto=0
@@ -39,6 +49,13 @@ for x in xrange(0,10):
 			if correcto:
 				print palabra
 				correcto=0
+				contador+=1
+
+	t_actual=time.time();
+
+print contador
+
+
 
 			
 
