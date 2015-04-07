@@ -27,63 +27,95 @@ api = tweepy.API(auth)
 
 correcto=0;
 seleccion=[]
-
-t_inicio=int(time.time())
-t_actual=int(time.time())
 contador=0
-
+cambiador=0
+t_inicio2=int(time.time())
+t_inicio=int(time.time())	
 #codigo principal
-while (t_actual-t_inicio<30):
- 	cantidad_lineas=0
- 	archivo=open('lol.txt')
- 	for linea in archivo:
- 		cantidad_lineas=cantidad_lineas+1
- 		#print linea.split(':')
- 	#print cantidad_lineas
- 	
- 	x=randint(0,cantidad_lineas-1)
- 	#print x
- 	archivo.close()
- 	contador_x=0
- 	
- 	archivo=open('lol.txt')
- 	for linea in archivo:
- 		if contador_x==x:
- 			linea_sel=linea.split(':')
- 			break
- 		else:
- 			contador_x=contador_x+1
- 	print linea_sel
+while(True):	
+	t_actual=int(time.time())
+	while (t_actual-t_inicio<10):
+	 	
+	 	cantidad_lineas=0
+	 	archivo=open('lol.txt')
+	 	for linea in archivo:
+	 		cantidad_lineas=cantidad_lineas+1
+	 	#print cantidad_lineas
+	 	x=randint(0,cantidad_lineas-1)
+	 	archivo.close()
+
+	 	contador_x=0
+	 	archivo=open('lol.txt')
+	 	for linea in archivo:
+	 		if contador_x==x:
+	 			linea_sel=linea.split(':')
+	 			break
+	 		else:
+	 			contador_x=contador_x+1
+	 	#print 'linea seleccionada:  ' ,linea_sel
+
+		listo=0
+		while(listo==0):
+			y=randint(0,len(linea_sel)-1)
+			palabra_sel=linea_sel[y]
+			if palabra_sel.lower()>='a'and palabra_sel.lower()<='z':
+				listo=1
+			else:
+				listo=0
+		print 'modismo seleccionado:  ',palabra_sel
+
+		for tweet in tweepy.Cursor(api.search,q=palabra_sel,count=1,result_type="recent",include_entities=True,lang="es").items(1):
+	  	 	frase=str((tweet.text)).split()
+	  	 	for palabra in frase:
+	  	 		if len(palabra)>=2:
+	  	 			for letra in palabra:
+	  	 				if letra.lower()>='a'and letra.lower()<='z':
+	  						seleccion=seleccion+[palabra]
+	  					else:
+	  						break
+	  	t_actual=time.time()
+	t_inicio=int(time.time())
+
+	z1=randint(0,len(seleccion)-1)
+	z2=randint(0,len(seleccion)-1)
+	palabra_encontrada1=seleccion[z1]
+	palabra_encontrada2=seleccion[z2]
+	print 'palabra seleccionada1:  ',palabra_encontrada1
+	print 'palabra seleccionada2:  ',palabra_encontrada2
 	
+	t_actual2=int(time.time())
+	
+	if t_actual2-t_inicio2<120:
+		cambiador=cambiador
+	else:
+		cambiador=not(cambiador)
+		t_inicio2=int(time.time())
+	if cambiador:
+		conectores='lol2.txt'
+	else:
+		conectores='lol3.txt'
+	conector=open(conectores)
+	cantidad_lineas=0
+	for linea in conector:
+	 		cantidad_lineas=cantidad_lineas+1
+	x=randint(0,cantidad_lineas-1)
+	conector.close()
+
+	contador_x=0
+	conector=open(conectores)
+	for linea in conector:
+		if contador_x==x:
+			linea_sel=linea.split(':')
+			break
+		else:
+			contador_x=contador_x+1
 	listo=0
 	while(listo==0):
 		y=randint(0,len(linea_sel)-1)
-		palabra_sel=linea_sel[y]
-		if palabra_sel.lower()>='a'and palabra_sel.lower()<='z':
+		conector_obtenido=linea_sel[y]
+		if conector_obtenido.lower()>='a'and conector_obtenido.lower()<='z':
 			listo=1
 		else:
 			listo=0
-	
-	print 'palabra seleccionada:  ' ,palabra_sel, y 
-
-	for tweet in tweepy.Cursor(api.search,q=palabra_sel,count=1,result_type="recent",include_entities=True,lang="es").items(1):
-  	 	frase=str((tweet.text)).split()
-  	 	#print frase
-  	 	for palabra in frase:
-  	 		#print len (palabra)
-  	 		if len(palabra)>=2:
-  	 			for letra in palabra:
-  	 				if letra.lower()>='a'and letra.lower()<='z':
-  						#seleccion=seleccion+[palabra]
-  	 					correcto=1
-  	 				else:
-  	 					correcto=0
-  	 					break
-  	 		else:
-  	 			correcto=0
-  	 		if correcto:
-  	 			print palabra
-  	 			correcto=0
-	 			#contador+=1
-  	t_actual=time.time()
-	#print contador
+	print palabra_encontrada1 ,conector_obtenido,palabra_encontrada2
+	conector.close()
